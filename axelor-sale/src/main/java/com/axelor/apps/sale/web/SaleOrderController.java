@@ -717,6 +717,8 @@ public class SaleOrderController {
       String saleOrderId = context.get("_id").toString();
       SaleOrder saleOrder = Beans.get(SaleOrderRepository.class).find(Long.parseLong(saleOrderId));
 
+      if(request.getContext().get("pack")!=null)
+      {
       @SuppressWarnings("unchecked")
       LinkedHashMap<String, Object> packMap =
           (LinkedHashMap<String, Object>) request.getContext().get("pack");
@@ -727,7 +729,7 @@ public class SaleOrderController {
       BigDecimal packQty = new BigDecimal(qty);
 
       saleOrder = Beans.get(SaleOrderService.class).addPack(saleOrder, pack, packQty);
-
+      }
       response.setCanClose(true);
     } catch (Exception e) {
       TraceBackService.trace(response, e);
