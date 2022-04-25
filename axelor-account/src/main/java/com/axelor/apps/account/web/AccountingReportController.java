@@ -27,6 +27,7 @@ import com.axelor.apps.account.exception.IExceptionMessage;
 import com.axelor.apps.account.service.AccountingReportService;
 import com.axelor.apps.account.service.MoveLineExportService;
 import com.axelor.apps.base.db.App;
+import com.axelor.apps.base.service.app.AppBaseService;
 import com.axelor.exception.service.TraceBackService;
 import com.axelor.i18n.I18n;
 import com.axelor.inject.Beans;
@@ -138,8 +139,11 @@ public class AccountingReportController {
     accountingReport = Beans.get(AccountingReportRepository.class).find(accountingReport.getId());
     MoveLineExportService moveLineExportService = Beans.get(MoveLineExportService.class);
 
+    Integer fetchLimit = Beans.get(AppBaseService.class).getAppBase().getBatchFetchLimit();
+
     try {
-      moveLineExportService.replayExportMoveLine(accountingReport);
+      moveLineExportService.replayExportMoveLine(
+          accountingReport, fetchLimit != 0 ? fetchLimit : 10);
     } catch (Exception e) {
       TraceBackService.trace(response, e);
     }
@@ -154,6 +158,7 @@ public class AccountingReportController {
     AccountingReport accountingReport = request.getContext().asType(AccountingReport.class);
     accountingReport = Beans.get(AccountingReportRepository.class).find(accountingReport.getId());
     AccountingReportService accountingReportService = Beans.get(AccountingReportService.class);
+    Integer fetchLimit = Beans.get(AppBaseService.class).getAppBase().getBatchFetchLimit();
 
     try {
 
@@ -179,7 +184,9 @@ public class AccountingReportController {
           && typeSelect < AccountingReportRepository.REPORT_ANALYTIC_BALANCE)) {
         MoveLineExportService moveLineExportService = Beans.get(MoveLineExportService.class);
 
-        MetaFile accesssFile = moveLineExportService.exportMoveLine(accountingReport);
+        MetaFile accesssFile =
+            moveLineExportService.exportMoveLine(
+                accountingReport, fetchLimit != 0 ? fetchLimit : 10);
         if (typeSelect == AccountingReportRepository.EXPORT_ADMINISTRATION && accesssFile != null) {
 
           response.setView(

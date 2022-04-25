@@ -56,6 +56,7 @@ public class BatchContract extends BatchStrategy {
 
   @Override
   protected void process() {
+    int fetchLimit = getFetchLimit();
     try {
       BatchContractFactory factory = getFactory(batch.getContractBatch().getActionSelect());
       Preconditions.checkNotNull(
@@ -67,10 +68,12 @@ public class BatchContract extends BatchStrategy {
       Query<Contract> query = factory.prepare(batch);
       List<Contract> contracts;
 
-      while (!(contracts = query.fetch(FETCH_LIMIT)).isEmpty()) {
+      int offset = 0;
+      while (!(contracts = query.fetch(fetchLimit, offset)).isEmpty()) {
         findBatch();
         for (Contract contract : contracts) {
           try {
+            ++offset;
             factory.process(contract);
             incrementDone(contract);
           } catch (Exception e) {
@@ -105,5 +108,12 @@ public class BatchContract extends BatchStrategy {
         String.format(
             "%d contract(s) treated and %d anomaly(ies) reported !",
             batch.getDone(), batch.getAnomaly()));
+  }
+
+  @Override
+  public int getFetchLimit() {
+    return batch.getContractBatch().getBatchFetchLimit() > 0
+        ? batch.getContractBatch().getBatchFetchLimit()
+        : super.getFetchLimit();
   }
 }

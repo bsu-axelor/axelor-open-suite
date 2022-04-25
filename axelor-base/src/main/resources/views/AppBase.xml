@@ -56,6 +56,7 @@
         <field name="companySpecificProductFieldsList"
           domain="self.metaModel.fullName = 'com.axelor.apps.base.db.Product'" canNew="false"
           canEdit="false"/>
+        <field name="batchFetchLimit"/>
       </panel>
       <panel name="interfacesPanel" title="Interfaces" colSpan="12">
         <panel name="mapPanel" title="Mapping" colSpan="12">

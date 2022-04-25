@@ -69,6 +69,7 @@ public class BatchAccountingCutOff extends BatchStrategy {
     updateBatch(moveDate, accountingCutOffTypeSelect);
     Company company = supplychainBatch.getCompany();
     boolean includeNotStockManagedProduct = supplychainBatch.getIncludeNotStockManagedProduct();
+    int fetchLimit = getFetchLimit();
 
     if (accountingCutOffTypeSelect == 0) {
       return;
@@ -78,7 +79,7 @@ public class BatchAccountingCutOff extends BatchStrategy {
 
     while (!(stockMoveList =
             cutOffService.getStockMoves(
-                company, accountingCutOffTypeSelect, moveDate, FETCH_LIMIT, offset))
+                company, accountingCutOffTypeSelect, moveDate, fetchLimit, offset))
         .isEmpty()) {
 
       findBatch();

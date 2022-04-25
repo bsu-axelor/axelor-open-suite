@@ -42,6 +42,8 @@ public class BatchOrderInvoicingPurchase extends BatchOrderInvoicing {
 
   @Override
   protected void process() {
+    int fetchLimit = getFetchLimit();
+    int offset = 0;
     SupplychainBatch supplychainBatch = batch.getSupplychainBatch();
     List<String> filterList = new ArrayList<>();
     Query<PurchaseOrder> query = Beans.get(PurchaseOrderRepository.class).all();
@@ -113,8 +115,9 @@ public class BatchOrderInvoicingPurchase extends BatchOrderInvoicing {
     Set<Long> treatedSet = new HashSet<>();
 
     for (List<PurchaseOrder> purchaseOrderList;
-        !(purchaseOrderList = query.fetch(FETCH_LIMIT)).isEmpty();
+        !(purchaseOrderList = query.fetch(fetchLimit, offset)).isEmpty();
         JPA.clear()) {
+      offset += purchaseOrderList.size();
       for (PurchaseOrder purchaseOrder : purchaseOrderList) {
         if (treatedSet.contains(purchaseOrder.getId())) {
           throw new IllegalArgumentException("Invoice generation error");

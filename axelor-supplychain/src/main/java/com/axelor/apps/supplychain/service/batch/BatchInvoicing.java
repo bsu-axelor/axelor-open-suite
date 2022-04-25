@@ -22,6 +22,7 @@ import com.axelor.apps.supplychain.exception.IExceptionMessage;
 import com.axelor.apps.supplychain.service.SaleOrderInvoiceService;
 import com.axelor.apps.supplychain.service.invoice.SubscriptionInvoiceService;
 import com.axelor.db.JPA;
+import com.axelor.db.Query;
 import com.axelor.exception.AxelorException;
 import com.axelor.exception.db.repo.ExceptionOriginRepository;
 import com.axelor.exception.service.TraceBackService;
@@ -46,12 +47,15 @@ public class BatchInvoicing extends BatchStrategy {
 
   @Override
   protected void process() {
+    int fetchLimit = getFetchLimit();
+    List<SaleOrder> saleOrders = null;
+    Query<SaleOrder> query = subscriptionInvoiceService.getSubscriptionOrders();
 
-    List<SaleOrder> saleOrders = subscriptionInvoiceService.getSubscriptionOrders(FETCH_LIMIT);
-
-    while (!saleOrders.isEmpty()) {
+    int offset = 0;
+    while (!(saleOrders = query.fetch(fetchLimit, offset)).isEmpty()) {
       for (SaleOrder saleOrder : saleOrders) {
         try {
+          offset++;
           subscriptionInvoiceService.generateSubscriptionInvoice(saleOrder);
           updateSaleOrder(saleOrder);
         } catch (AxelorException e) {
@@ -72,7 +76,6 @@ public class BatchInvoicing extends BatchStrategy {
         }
       }
       JPA.clear();
-      saleOrders = subscriptionInvoiceService.getSubscriptionOrders(FETCH_LIMIT);
     }
   }
 
