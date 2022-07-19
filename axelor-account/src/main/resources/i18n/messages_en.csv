@@ -3320,6 +3320,7 @@
 "move.company","Company",,
 "move.currency","Currency",,
 "move.journal","Journal",,
+"move.origin","Origin",,
 "move.partner","Partner",,
 "move.period","Period",,
 "move.reference","Ref.",,
