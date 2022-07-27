@@ -55,7 +55,7 @@
       <field name="statusSelect" widget="NavSelect" readonly="true" showTitle="false"
         colSpan="9"/>
       <button name="$sessionTotalAmountBtn" title="Session total amount" icon="fa-money"
-        widget="info-button" onClick="" colSpan="3"
+        widget="info-button" onClick="action-payment-session-view-move-lines" colSpan="3"
         showIf="sessionTotalAmount &gt; 0 || $hasUnselectedInvoiceTerm"
         x-currency="company.currency.symbol"/>
     </panel>
@@ -109,7 +109,7 @@
         action="action-invoice-term-view-payment-session-group-by-partner-dashlet" showIf="id"
         colSpan="8" canSearch="true" height="380"/>
       <button name="$sessionTotalAmountBtn" title="Session total amount" icon="fa-money"
-        widget="info-button" onClick="" colSpan="4"
+        widget="info-button" onClick="action-payment-session-view-move-lines" colSpan="4"
         showIf="sessionTotalAmount &gt; 0 || $hasUnselectedInvoiceTerm"
         x-currency="company.currency.symbol"/>
       <field name="sessionTotalAmount" hidden="true"/>
@@ -365,6 +365,14 @@
     <view type="form" name="invoice-form"/>
     <domain>self.paymentSession.id = :_id AND self.isSelectedOnPaymentSession IS TRUE AND
       (self.isPaid IS TRUE OR self.paymentAmount > self.amountRemaining)</domain>
+    <context name="_id" expr="eval: id"/>
+  </action-view>
+
+  <action-view name="action-payment-session-view-move-lines" title="Move lines"
+    model="com.axelor.apps.account.db.MoveLine">
+    <view type="grid" name="move-line-grid"/>
+    <view type="form" name="move-line-form"/>
+    <domain>self.move.paymentSession.id = :_id</domain>
     <context name="_id" expr="eval: id"/>
   </action-view>
 
