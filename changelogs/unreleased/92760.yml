@@ -1,0 +1,3 @@
+---
+title: "Purchase order line: always set account based on configuration."
+module: axelor-purchase
