@@ -939,6 +939,7 @@
 "The template to send message on realization is missing.",,,
 "The template to send message on save is missing.",,,
 "The total net mass is higher than the total gross mass.",,,
+"The total quantity of the selected tracking numbers (%s) does not match the quantity of the stock move line (%s).",,,
 "The tracking number configuration quantity is equal to zero, it must be at least one.",,,
 "The type of cancel reason doesn't match with stock move",,,
 "The unit is missing on a stock location line",,,

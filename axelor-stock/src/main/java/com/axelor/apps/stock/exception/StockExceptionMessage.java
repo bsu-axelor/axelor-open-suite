@@ -224,6 +224,8 @@ public final class StockExceptionMessage {
   public static final String TRACK_NUMBER_WIZARD_TITLE_2 = /*$$(*/ "Select tracking numbers" /*)*/;
   public static final String TRACK_NUMBER_WIZARD_NO_RECORD_ADDED_ERROR = /*$$(*/
       "No Tracking Numbers Added" /*)*/;
+  public static final String TRACK_NUMBER_WIZARD_QTY_MISMATCH_ERROR = /*$$(*/
+      "The total quantity of the selected tracking numbers (%s) does not match the quantity of the stock move line (%s)." /*)*/;
 
   public static final String TRACK_NUMBER_DATE_MISSING = /*$$(*/
       "Please fill estimated delivery date for product %s from %s" /*)*/;

@@ -939,6 +939,7 @@
 "The template to send message on realization is missing.","Le modèle servant au message envoyé lors de la réalisation est manquant.",,
 "The template to send message on save is missing.","Le modèle pour envoyer un email à la sauvegarde est manquant.",,
 "The total net mass is higher than the total gross mass.","La masse nette totale est supérieure à la masse brute totale.",,
+"The total quantity of the selected tracking numbers (%s) does not match the quantity of the stock move line (%s).","La quantité totale des numéros de suivi sélectionnés (%s) ne correspond pas à la quantité de la ligne de mouvement de stock (%s).",,
 "The tracking number configuration quantity is equal to zero, it must be at least one.","La quantité de la configuration du numéro de suivi est égale à zéro, elle doit être d'au moins un.",,
 "The type of cancel reason doesn't match with stock move","Le type de motif d’annulation ne correspond pas avec le mouvement de stock.",,
 "The unit is missing on a stock location line","L'unité est manquante sur une ligne d'emplacement de stock",,

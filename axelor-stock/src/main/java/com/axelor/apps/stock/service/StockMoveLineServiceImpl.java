@@ -1615,7 +1615,9 @@ public class StockMoveLineServiceImpl implements StockMoveLineService {
     BigDecimal totalSplitQty = BigDecimal.ZERO;
     boolean isAlreadyExceeded = false;
     for (LinkedHashMap<String, Object> trackingNumberItem : trackingNumbers) {
-      BigDecimal counter = new BigDecimal(trackingNumberItem.get("counter").toString());
+      Object counterItem = trackingNumberItem.get("counter");
+      BigDecimal counter =
+          counterItem == null ? BigDecimal.ZERO : new BigDecimal(counterItem.toString());
       if (counter.compareTo(BigDecimal.ZERO) == 0) {
         continue;
       }

@@ -54,6 +54,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -133,6 +134,22 @@ public class StockMoveLineController {
 
         ArrayList<LinkedHashMap<String, Object>> trackingNumbers =
             (ArrayList<LinkedHashMap<String, Object>>) context.get("trackingNumbers");
+
+        BigDecimal totalSplitQty =
+            trackingNumbers.stream()
+                .map(trackingNumberItem -> trackingNumberItem.get("counter"))
+                .filter(Objects::nonNull)
+                .map(counter -> new BigDecimal(counter.toString()))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        if (totalSplitQty.compareTo(stockMoveLine.getQty()) != 0) {
+          response.setAlert(
+              String.format(
+                  I18n.get(StockExceptionMessage.TRACK_NUMBER_WIZARD_QTY_MISMATCH_ERROR),
+                  totalSplitQty,
+                  stockMoveLine.getQty()));
+          return;
+        }
 
         Beans.get(StockMoveLineService.class)
             .splitStockMoveLineByTrackingNumber(stockMoveLine, trackingNumbers);
